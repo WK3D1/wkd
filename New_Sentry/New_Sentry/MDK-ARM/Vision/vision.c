@@ -381,6 +381,24 @@ void vision_transmit(){
 	{
 		vision_transmit_package_building_HP(vision_transmit_buff);
 		CDC_Transmit_FS(vision_transmit_buff, VISION_BUFLEN);
+		flag ++;
+	}
+	if(flag == 6)
+	{
+		vision_transmit_package_Judge_msg(vision_transmit_buff);
+		CDC_Transmit_FS(vision_transmit_buff, VISION_BUFLEN);
+		flag ++;
+	}
+	if(flag == 7)
+	{
+		vision_transmit_package_radar_msg123(vision_transmit_buff);
+		CDC_Transmit_FS(vision_transmit_buff, VISION_BUFLEN);
+		flag ++;
+	}
+	if(flag == 8)
+	{
+		vision_transmit_package_radar_msg457(vision_transmit_buff);
+		CDC_Transmit_FS(vision_transmit_buff, VISION_BUFLEN);
 		flag = 0;
 	}
 	
