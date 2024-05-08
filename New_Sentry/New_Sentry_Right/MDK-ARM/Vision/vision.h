@@ -165,6 +165,7 @@ extern void vision_call_back_handler_Right_Control(uint8_t *buff);
 extern void vision_transmit(void);
 
 extern void vision_transmit_package_AutoaimFeedback(uint8_t *buff);
+extern void	vision_call_back_handler_Judge_msg(uint8_t *buff);
 
 
 #endif

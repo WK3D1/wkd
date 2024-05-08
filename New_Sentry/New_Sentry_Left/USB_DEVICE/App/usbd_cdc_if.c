@@ -268,6 +268,7 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 	memcpy(vision_buf,Buf,*Len);
 
 	vision_call_back_handler_Left_Control(vision_buf);//虚拟串口接收回调
+	vision_call_back_handler_Judge_msg(vision_buf);
 
   return (USBD_OK);
   /* USER CODE END 6 */
