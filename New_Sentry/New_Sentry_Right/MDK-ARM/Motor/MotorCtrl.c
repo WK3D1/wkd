@@ -89,6 +89,10 @@ void Motor_Ctrl(void)
 	{
 		Gimbal_Data.IMUData.yaw_target += 8192;
 	}
+	if((Gimbal_Data.IMUData.yaw_target > 0 && Gimbal_Data.IMUData.yaw_target < 1300) || (Gimbal_Data.IMUData.yaw_target > 7300 && Gimbal_Data.IMUData.yaw_target < 8192))
+	{
+		Gimbal_Data.IMUData.yaw_target = 2800;
+	}
 	k1 = 0.5f + (Motor_6020[0].angle - Motor_6020[0].last_angle) / Div1;
 	yaw_angle = Motor_6020[0].last_angle * k1 + (1 - k1) * Motor_6020[0].angle;
 	pid_caculate(&PID_GIMBAL_6020_ANGLE, yaw_angle, yaw_angle_target);//yaw轴电机位置环
@@ -116,7 +120,7 @@ void Motor_Ctrl(void)
 void Motor_PID_Init(void)
 {
 
-	Gimbal_Data.IMUData.yaw_target = 6850;
+	Gimbal_Data.IMUData.yaw_target = 2800;
 
 	pid_param_init(&PID_GIMBAL_3508_1_SPEED, PID_DELTA, PID_GIMBAL_3508_1_SPEED_K, 8000, 1000, 3e38, 0, 0.1, 0, 0);
 

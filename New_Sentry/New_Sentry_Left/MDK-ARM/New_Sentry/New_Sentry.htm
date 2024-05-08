@@ -3,7 +3,7 @@
 <title>Static Call Graph - [New_Sentry\New_Sentry.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image New_Sentry\New_Sentry.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed May 08 21:26:48 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed May 08 23:37:20 2024
 <BR><P>
 <H3>Maximum Stack Usage =        400 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -2084,7 +2084,7 @@ Global Symbols
 <LI><a href="#[1a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_Ctrl
 </UL>
 
-<P><STRONG><a name="[1a1]"></a>Motor_Ctrl</STRONG> (Thumb, 740 bytes, Stack size 32 bytes, motorctrl.o(i.Motor_Ctrl))
+<P><STRONG><a name="[1a1]"></a>Motor_Ctrl</STRONG> (Thumb, 786 bytes, Stack size 32 bytes, motorctrl.o(i.Motor_Ctrl))
 <BR><BR>[Stack]<UL><LI>Max Depth = 148<LI>Call Chain = Motor_Ctrl &rArr; Motor_4310_send &rArr; HAL_CAN_AddTxMessage
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIR_Calc
@@ -2948,9 +2948,9 @@ Global Symbols
 <P><STRONG><a name="[1a9]"></a>Vision_Move</STRONG> (Thumb, 746 bytes, Stack size 32 bytes, gimbal.o(i.Vision_Move))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = Vision_Move &rArr; __aeabi_cdcmple
 </UL>
-<BR>[Calls]<UL><LI><a href="#[1e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_isnanf
+<BR>[Calls]<UL><LI><a href="#[1e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fabs
+<LI><a href="#[1e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_isnanf
 <LI><a href="#[1e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_isinff
-<LI><a href="#[1e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fabs
 <LI><a href="#[17d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[1e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdcmple
 </UL>
@@ -3413,11 +3413,11 @@ Global Symbols
 <LI><a href="#[213]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskResumeAll
 <LI><a href="#[210]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskSuspendAll
 </UL>
-<BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartShootTask
-<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartChassisTask
+<BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartChassisTask
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartGimbalTask
 <LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;INS_task
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartMotorTask
+<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartShootTask
 </UL>
 
 <P><STRONG><a name="[ed]"></a>vTaskNotifyGiveFromISR</STRONG> (Thumb, 214 bytes, Stack size 24 bytes, tasks.o(i.vTaskNotifyGiveFromISR))
@@ -3525,11 +3525,11 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[176]"></a>xTaskGetTickCount</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, tasks.o(i.xTaskGetTickCount))
-<BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartShootTask
-<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartChassisTask
+<BR><BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartChassisTask
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartGimbalTask
 <LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;INS_task
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartMotorTask
+<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartShootTask
 </UL>
 
 <P><STRONG><a name="[1ab]"></a>xTaskIncrementTick</STRONG> (Thumb, 282 bytes, Stack size 24 bytes, tasks.o(i.xTaskIncrementTick))

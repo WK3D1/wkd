@@ -17,8 +17,8 @@ Gimbal_Type Gimbal_Data;
 #define PITCH_ANGLE_TOP 0.50f
 #define PITCH_ANGLE_BOTTOM -0.49f
 
-#define YAW_ANGLE_MAX 5700
-#define YAW_ANGLE_MIN 2700
+#define YAW_ANGLE_MAX 6800
+#define YAW_ANGLE_MIN 1950
 
 
 
@@ -165,7 +165,7 @@ void Vision_Move(void)
 			}
 			if(Gimbal_Data.Shoot_Data.vision_mode == 1 && VisionValue.find_bool == '1')
 			{
-				Gimbal_Data.IMUData.yaw_target = ((VisionValue.vision_right_yaw_value.value + PI + 2.11229151f) / PI) * 4096;
+				Gimbal_Data.IMUData.yaw_target = ((VisionValue.vision_right_yaw_value.value + PI - 0.99401953359375f) / PI) * 4096;
 				Gimbal_Data.IMUData.pitch_target = -VisionValue.vision_right_pitch_value.value;
 			}
 			else
@@ -173,7 +173,7 @@ void Vision_Move(void)
 				//´ò·û
 				if(VisionValue.find_bool == '1')
 				{
-					Gimbal_Data.IMUData.yaw_target = ((VisionValue.vision_right_yaw_value.value + PI + 2.11229151f) / PI) * 4096;
+					Gimbal_Data.IMUData.yaw_target = ((VisionValue.vision_right_yaw_value.value + PI - 0.99401953359375f) / PI) * 4096;
 					Gimbal_Data.IMUData.pitch_target = -VisionValue.vision_right_pitch_value.value;
 					Gimbal_Data.IMUData.yaw_target = Gimbal_Data.IMUData.yaw_target*filter_yaw[0] + Gimbal_Data.IMUData.ol[0]*filter_yaw[1];
 					Gimbal_Data.IMUData.pitch_target = Gimbal_Data.IMUData.pitch_target*filter_pitch[0] + Gimbal_Data.IMUData.ol[2]*filter_pitch[1];
@@ -253,25 +253,25 @@ void Remote_Move()
 			
 			
 			//yaw
-			if(Motor_6020[0].angle > 5600 && Motor_6020[0].angle < YAW_ANGLE_MAX)
-			{
-				Gimbal_Data.IMUData.yaw_target += Yaw_Move_Speed;
-				Scan_Flag_YAW_turn = 1;
-			}
-			else if(Motor_6020[0].angle > YAW_ANGLE_MIN && Motor_6020[0].angle < 2800)
+			if(Motor_6020[0].angle > 6700 && Motor_6020[0].angle < YAW_ANGLE_MAX)
 			{
 				Gimbal_Data.IMUData.yaw_target -= Yaw_Move_Speed;
+				Scan_Flag_YAW_turn = 1;
+			}
+			else if(Motor_6020[0].angle > YAW_ANGLE_MIN && Motor_6020[0].angle < 2050)
+			{
+				Gimbal_Data.IMUData.yaw_target += Yaw_Move_Speed;
 				Scan_Flag_YAW_turn = 0;
 			}
 			else
 			{
 				if(Scan_Flag_YAW_turn == 0)
 				{
-					Gimbal_Data.IMUData.yaw_target -= Yaw_Move_Speed;
+					Gimbal_Data.IMUData.yaw_target += Yaw_Move_Speed;
 				}
 				else
 				{
-					Gimbal_Data.IMUData.yaw_target += Yaw_Move_Speed;
+					Gimbal_Data.IMUData.yaw_target -= Yaw_Move_Speed;
 				}
 			}
 		 }

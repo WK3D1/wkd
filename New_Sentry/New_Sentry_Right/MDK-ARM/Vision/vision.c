@@ -70,7 +70,7 @@ float YAW_Vision,PITCH_Vision;
 void vision_transmit_package_AutoaimFeedback (uint8_t *buff)
 {
 	
-		YAW_Vision = ((Motor_6020[0].angle - 4096.f) / 4096.f ) * PI -  2.11229151f;
+		YAW_Vision = ((Motor_6020[0].angle - 4096.f) / 4096.f ) * PI + 0.99401953359375f;
 	  PITCH_Vision = -(Motor_4310.angle - 1.2853f);
 	
 	  memset(vision_transmit_buff,0,sizeof(vision_transmit_buff));
