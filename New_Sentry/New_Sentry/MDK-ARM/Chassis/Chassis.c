@@ -133,8 +133,8 @@ void StartChassisTask(void const * argument)
 				//Ò£¿ØÆ÷¸³Öµ
 				float temp_yaw_angle_target = Gimbal_Data.yaw_angle_target - 0.0001f * RC_Ctl.rc.ch2;
 				Gimbal_Data.yaw_angle_target = __normalangle(&temp_yaw_angle_target, -180, 180);
-				Chassis_Data.vx_target = RAMP_float( (RC_Ctl.rc.ch1)/660.f, 3, 20 );
-				Chassis_Data.vy_target = RAMP_float( (RC_Ctl.rc.ch0)/660.f, 3, 20 );
+				Chassis_Data.vx_target = RAMP_float( (RC_Ctl.rc.ch1)/200.f, 3, 20 );
+				Chassis_Data.vy_target = RAMP_float( (RC_Ctl.rc.ch0)/200.f, 3, 20 );
 				angle_match();
 				pid_caculate(&Chassis_Follow_PID,mintemp1,0);
 				Chassis_Data.vw_target = -Chassis_Follow_PID.out;

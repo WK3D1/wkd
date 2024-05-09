@@ -94,43 +94,28 @@ void Ammunition_Motor_Ctrol(void)
 
 /***********摩擦轮控制程序*************/
 float Now_speed = 0;		//当前弹速
-float Last_Speed = 0;		//上一次弹速
-float Speed_Allow = 0;	//最高允许弹速	
-float Speed_Allow_Last = 0;	//最高允许弹速
-
-float init_speed = 26.5;
-uint8_t is_shoot = 0;
+float hight_speed = 8000;
+float low_speed = 7500;
 
 
 void Friction_Motor_Ctrol(void)
 {
 			if((RC_Ctl.rc.s1 == 3 && RC_Ctl.rc.s2 == 1) || (Gimbal_Data.Shoot_Data.use_vision == 1))
-		{
-			Speed_Allow_Last = Speed_Allow;
-			Speed_Allow = init_speed;
-			Saturation(&Speed_Allow, 30, 0);	
-			Last_Speed = Now_speed;
-			if(Speed_Allow_Last != Speed_Allow)
-			{
-				Gimbal_Data.Shoot_Data.Friction_Motor_Speed_Set = (8000 / 30) * init_speed;
-				Gimbal_Data.Shoot_Data.set_bullet_speed = Speed_Allow * 0.9f;
+		  {
+				Gimbal_Data.Shoot_Data.Friction_Motor_Speed_Set = hight_speed;
 				Now_speed = JUDGE_usGetSpeedHeat17();
-			  if(is_shoot == 1)
-					{
-						if(Now_speed > 28.f) init_speed = init_speed - (Now_speed - 28) * 1.2f;
-						else if(Now_speed < 26.5f) init_speed = init_speed + (27 - Now_speed) * 0.5f;
-						is_shoot = 0;
-					}
-			}
-					Motor_3508[0].speed_rpm_target = Gimbal_Data.Shoot_Data.Friction_Motor_Speed_Set;
-					Motor_3508[1].speed_rpm_target = -Gimbal_Data.Shoot_Data.Friction_Motor_Speed_Set;
-	      
-		    }
+				Motor_3508[0].speed_rpm_target = Gimbal_Data.Shoot_Data.Friction_Motor_Speed_Set;
+				Motor_3508[1].speed_rpm_target = -Gimbal_Data.Shoot_Data.Friction_Motor_Speed_Set;  
+				if(Now_speed > 29.5f)
+				{
+					Gimbal_Data.Shoot_Data.Friction_Motor_Speed_Set = low_speed;
+				}
+		  }
 		  else
-		    {
-			    Motor_3508[0].speed_rpm_target = 0;
-		      Motor_3508[1].speed_rpm_target = 0;
-		    }
+		  {
+			  Motor_3508[0].speed_rpm_target = 0;
+		    Motor_3508[1].speed_rpm_target = 0;
+		  }
 }
 
 /**

@@ -312,7 +312,7 @@ uint8_t JUDGE_Game_Status(void)
 /**
   * @brief  读取射速
   * @param  void
-  * @retval 42mm
+  * @retval 17mm
   * @attention  实时射速
   */
 float JUDGE_usGetSpeedHeat17(void)

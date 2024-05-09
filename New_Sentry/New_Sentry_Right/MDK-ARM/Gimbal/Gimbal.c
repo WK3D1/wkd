@@ -155,7 +155,7 @@ void Vision_Move(void)
 				}
 			}
 			//×ÔÃé
-			else if((fabs(yaw_value) < ((0.135f /(2.f * VisionValue.vision_Right_Gimbal_distance.value)) * 0.5f)  && fabs(pitch_value) < ((0.135f /(2.f * VisionValue.vision_Right_Gimbal_distance.value)) * 0.5f)) && VisionValue.find_bool == '1') 
+			else if((fabs(yaw_value) < ((0.135f /(2.f * VisionValue.vision_Right_Gimbal_distance.value)) * 0.6f)  && fabs(pitch_value) < ((0.135f /(2.f * VisionValue.vision_Right_Gimbal_distance.value)) * 0.6f)) && VisionValue.find_bool == '1') 
 			{
 				VisionValue.center_flag = '1';
 			}
