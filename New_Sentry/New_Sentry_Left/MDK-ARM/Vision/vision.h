@@ -107,6 +107,12 @@ typedef struct{
 		float value;
 	}right_bullet_speed;
 	
+	union
+	{
+		uint8_t buff[4];
+		int value;
+	}game_progress;
+	
 }VisionValueType;
 
 typedef struct{

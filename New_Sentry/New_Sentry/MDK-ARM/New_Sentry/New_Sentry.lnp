@@ -80,8 +80,8 @@
 "new_sentry\dji3508.o"
 "new_sentry\motorctrl.o"
 "new_sentry\dm4310.o"
-"..\Middlewares\ST\ARM\DSP\Lib\arm_cortexM4l_math.lib"
 "new_sentry\protect.o"
+"..\Middlewares\ST\ARM\DSP\Lib\arm_cortexM4l_math.lib"
 --strict --scatter "New_Sentry\New_Sentry.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

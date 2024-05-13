@@ -96,18 +96,20 @@ void Motor_4310_receive(Motor_4310Type* motor, uint8_t* temp, uint8_t CAN_ID)
 	uint8_t hall_t;  
 	
 		
-	motor->ID = CAN_ID;
+	motor->ID = CAN_ID; 
 	p_int=(temp[1]<<8)|temp[2];
 	v_int=(temp[3]<<4)|(temp[4]>>4);
 	t_int=((temp[4]&0xF)<<8)|temp[5];
 
 	
 	motor->angle = dm4310_uint_to_float(p_int, P_MIN, P_MAX, 16);
-	motor->position = dm4310_uint_to_float(p_int, P_MIN, P_MAX, 16);
 	motor->speed_rpm = 0.9f*motor->speed_rpm+0.1f*dm4310_uint_to_float(v_int, V_MIN, V_MAX, 12);
 	motor->current_ref = dm4310_uint_to_float(t_int, T_MIN, T_MAX, 12);	//Êä³öÁ¦¾Ø
 	motor->tempure = (float)(temp[6]);
 	motor->dm_err = temp[0] >> 4;
 	motor->hall = hall_t;  
+	
+	motor->msg_cnt++;
+	motor->msg_missing_time=0;
 
 }

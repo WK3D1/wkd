@@ -132,11 +132,18 @@ void Motor_Ctrl(void)
 	
 	float temp_yaw_angle = Gimbal_Data.yaw_angle;
 	Handle_Angle360_PID_Over_Zero(&Gimbal_Data.yaw_angle_target, &temp_yaw_angle);
-
+	
 	pid_caculate(&PID_YAW_4310_ANGLE, temp_yaw_angle, Gimbal_Data.yaw_angle_target);
 	pid_caculate(&PID_YAW_4310_SPEED, Motor_4310.speed_rpm, Motor_4310.speed_rpm_target);
 	
-	Motor_4310_send(&CAN_YAW_4310,0x01,0,0,0,0,-PID_YAW_4310_ANGLE.out);
+	if(Motor_4310.msg_frequent < 900)
+	{
+		Motor_4310_send(&CAN_YAW_4310,0x01,0,0,0,0,0);
+	}
+	else
+	{
+		Motor_4310_send(&CAN_YAW_4310,0x01,0,0,0,0,-PID_YAW_4310_ANGLE.out);
+	}
 }
 
 void Motor_PID_Init(void)

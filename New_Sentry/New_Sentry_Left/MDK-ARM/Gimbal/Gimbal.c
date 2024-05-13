@@ -144,16 +144,8 @@ void Vision_Move(void)
 		{
 			yaw_value = VisionValue.vision_left_yaw_value.value - YAW_Vision;
 			pitch_value = VisionValue.vision_left_pitch_value.value - PITCH_Vision;
-			//´ò·û
-			if(Gimbal_Data.Shoot_Data.vision_mode == 0 && (fabs(yaw_value) < 0.03f && fabs(pitch_value) < 0.03f) && VisionValue.find_bool == '1')
-			{
-				if(allow_shoot == 1)
-				{
-					VisionValue.center_flag = '1';
-				}
-			}
 			//×ÔÃé
-		else if((fabs(yaw_value) < ((0.135f /(2.f * VisionValue.vision_Left_Gimbal_distance.value)) * 0.6f) && fabs(pitch_value) < ((0.135f /(2.f * VisionValue.vision_Left_Gimbal_distance.value)) *0.6f) ) && VisionValue.find_bool == '1') 
+		  if((fabs(yaw_value) < ((0.135f /(2.f * VisionValue.vision_Left_Gimbal_distance.value)) * 0.6f) && fabs(pitch_value) < ((0.135f /(2.f * VisionValue.vision_Left_Gimbal_distance.value)) *0.6f) ) && VisionValue.find_bool == '1') 
 			{
 				VisionValue.center_flag = '1';
 			}
@@ -186,7 +178,7 @@ int Scan_TIME;
 double Scan_w =  _2PI / 500;
 int Change_Mode_Flag;
 int Change_Scan_Rage = 0;
-float Pitch_Move_Speed = 0.008f;
+float Pitch_Move_Speed = 0.003f;
 float Yaw_Move_Speed = 2.0f;
 
 void Remote_Move()

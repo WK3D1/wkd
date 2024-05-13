@@ -1,4 +1,4 @@
-#include "Chassis.h"
+                                                                                                           #include "Chassis.h"
 #include "cmsis_os.h"
 #include "MotorCtrl.h"
 #include "MyLib.h"
@@ -17,7 +17,7 @@ void speed_cal(float vx, float vy, float vw,float angle, float *motor_speed_1, f
 
 PidTypeDef Chassis_Follow_PID;
 
-float Chassis_Follow_pid[3]={0.0060000005,0,0.0010000005};
+float Chassis_Follow_pid[3]={0.0050000005,0,0.0010000005};
 
 
 /**

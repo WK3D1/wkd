@@ -74,5 +74,5 @@ new_sentry\chassis.o: ./Gimbal/Gimbal.h
 new_sentry\chassis.o: ./Communication/vision_can.h
 new_sentry\chassis.o: ./Judge/judge.h
 new_sentry\chassis.o: ./Vision/vision.h
-new_sentry\chassis.o: .\Protect\protect.h
+new_sentry\chassis.o: ./Protect/protect.h
 new_sentry\chassis.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h

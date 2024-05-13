@@ -37,65 +37,59 @@ void StartShootTask(void const * argument)
 
 /********************拨弹盘控制程序*********************/
 float ammu_speed = SHOOT_HEAT_ENOUGH;
-float Shoot_Speed;
-float Last_Shoot_Speed;
-uint8_t Have_Shooted;	//单发模式下已经发射了一颗弹丸
-uint16_t danfa_delay_time;
-uint16_t have_ready_time = 1;
-uint16_t p_angle = 34200;
 void Ammunition_Motor_Ctrol(void)
 {
-	if(Gimbal_Data.Shoot_Data.use_vision == 1)	//如果是视觉模式
-	{
-		Revolver_Heat_Limit();
-		
-		if(Gimbal_Data.Shoot_Data.vision_mode == 1)		//自瞄
+//	if(VisionValue.game_progress.value == 4)
+		if(Gimbal_Data.Shoot_Data.use_vision == 1)	//如果是视觉模式
 		{
-			if(VisionValue.center_flag == '1')	//如果可以射击
+			Revolver_Heat_Limit();
+			
+			if(Gimbal_Data.Shoot_Data.vision_mode == 1)		//自瞄
 			{
-				if(VisionValue.vision_Left_Gimbal_distance.value < 8)
+				if(VisionValue.center_flag == '1')	//如果可以射击
 				{
-					Motor_2006[0].speed_rpm_target = ammu_speed * 2.f;
+					if(VisionValue.vision_Left_Gimbal_distance.value < 8)
+					{
+						Motor_2006[0].speed_rpm_target = ammu_speed * 2.f;
+					}
+					else
+					{
+						Motor_2006[0].speed_rpm_target = ammu_speed;
+					}
 				}
 				else
 				{
-					Motor_2006[0].speed_rpm_target = ammu_speed;
+					Motor_2006[0].speed_rpm_target = 0;
 				}
 			}
-			else
-			{
-				Motor_2006[0].speed_rpm_target = 0;
-			}
 		}
-	}
-	else if((RC_Ctl.rc.s1 == 3 && RC_Ctl.rc.s2 == 1) || (RC_Ctl.rc.s1 == 3 && RC_Ctl.rc.s2 == 2))
-	{
+		else if((RC_Ctl.rc.s1 == 3 && RC_Ctl.rc.s2 == 1) || (RC_Ctl.rc.s1 == 3 && RC_Ctl.rc.s2 == 2))
+		{
 
-			if(RC_Ctl.rc.wheel >= 50 && RC_Ctl.rc.wheel <= 660)
-			{
-				Motor_2006[0].speed_rpm_target = ammu_speed;
-			}
-			else if(RC_Ctl.rc.wheel <= -50 && RC_Ctl.rc.wheel >= -660)
-			{
-				Motor_2006[0].speed_rpm_target = -ammu_speed;
-			}
-			else
-			{
-				Motor_2006[0].speed_rpm_target = 0;
-			}
-	}
-	else
-	{
-				Motor_2006[0].speed_rpm_target = 0;
-	}
-	Last_Shoot_Speed = Shoot_Speed;
+				if(RC_Ctl.rc.wheel >= 50 && RC_Ctl.rc.wheel <= 660)
+				{
+					Motor_2006[0].speed_rpm_target = ammu_speed;
+				}
+				else if(RC_Ctl.rc.wheel <= -50 && RC_Ctl.rc.wheel >= -660)
+				{
+					Motor_2006[0].speed_rpm_target = -ammu_speed;
+				}
+				else
+				{
+					Motor_2006[0].speed_rpm_target = 0;
+				}
+		}
+		else
+		{
+					Motor_2006[0].speed_rpm_target = 0;
+		}
 }
 
 
 /***********摩擦轮控制程序*************/
 float Now_speed = 0;		//当前弹速
-float hight_speed = 8000;
-float low_speed = 7500;
+float hight_speed = 7500;
+float low_speed = 7200;
 
 
 void Friction_Motor_Ctrol(void)

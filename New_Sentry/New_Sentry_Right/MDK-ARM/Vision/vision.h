@@ -105,7 +105,11 @@ typedef struct{
 		int value;
 	}right_real_heat;
 	
-	 
+	union
+	{
+		uint8_t buff[4];
+		int value;
+	}game_progress;
 }VisionValueType;
 
 

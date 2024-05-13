@@ -34,6 +34,7 @@
 #include "dbus.h"
 #include "global_can.h"
 #include "judge.h"
+#include "MotorCtrl.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -82,6 +83,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+
   HAL_Init();
 
   /* USER CODE BEGIN Init */
@@ -107,10 +109,11 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM1_Init();
   MX_CRC_Init();
+  MX_TIM13_Init();
   /* USER CODE BEGIN 2 */
-	CAN_Init();
-	Judge_Communication_Init(&huart1);
 	dbus_uart_init();
+	CAN_Init();
+	HAL_TIM_Base_Start_IT(&htim13);
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
@@ -197,7 +200,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
+if(htim->Instance == TIM13)
+	{
 
+		Motor_4310.msg_frequent = Motor_4310.msg_cnt;
+		Motor_4310.msg_cnt = 0;
+		
+	}
   /* USER CODE END Callback 1 */
 }
 

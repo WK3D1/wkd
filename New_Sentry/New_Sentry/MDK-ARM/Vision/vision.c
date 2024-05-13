@@ -170,6 +170,7 @@ void vision_transmit_handler(void)//对要发送给视觉的s数据进行处理
 	VisionTransmit.standard_5map_y.value_offset = judge_frame_rx.data.robot_position.standard_5_y;
 	
   get_enemy_position();
+	VisionTransmit.game_progress.value_offset = judge_frame_rx.data.game_status.game_progress;
 	
 }
 
@@ -184,11 +185,12 @@ void vision_transmit_package_Game(uint8_t *buff)
 	 vision_transmit_buff[1] = 0xB3; //比赛信息
 
 	 vision_transmit_buff[2] = VisionTransmit.enemy_color;	//敌方颜色 0：红 1：蓝
-	 memcpy(&(vision_transmit_buff[3]),  &VisionTransmit.game_time.value_offset, 4);	
-	 memcpy(&(vision_transmit_buff[7]),  &VisionTransmit.game_economy.value_offset, 4);
-	 memcpy(&(vision_transmit_buff[11]),  &VisionTransmit.allowance_capacity.value_offset, 4);
-	 memcpy(&(vision_transmit_buff[15]),  &VisionTransmit.left_condition.value_offset, 4);
-	 memcpy(&(vision_transmit_buff[19]),  &VisionTransmit.right_condition.value_offset, 4);
+	 memcpy(&(vision_transmit_buff[3]),  &VisionTransmit.game_progress.value_offset, 4);	
+	 memcpy(&(vision_transmit_buff[7]),  &VisionTransmit.game_time.value_offset, 4);	
+	 memcpy(&(vision_transmit_buff[11]),  &VisionTransmit.game_economy.value_offset, 4);
+	 memcpy(&(vision_transmit_buff[15]),  &VisionTransmit.allowance_capacity.value_offset, 4);
+	 memcpy(&(vision_transmit_buff[19]),  &VisionTransmit.left_condition.value_offset, 4);
+	 memcpy(&(vision_transmit_buff[23]),  &VisionTransmit.right_condition.value_offset, 4);
 	
 	 vision_transmit_buff[31] = 'e'; //结束位
 }

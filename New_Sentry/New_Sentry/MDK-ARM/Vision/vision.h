@@ -126,6 +126,12 @@ typedef struct{
 		float value_offset;
 	}vision_absolute_vy;
 	
+	
+	union
+	{
+		uint8_t buff[4];
+		int value_offset;
+	}game_progress;
 	union
 	{
 		uint8_t buff[4];

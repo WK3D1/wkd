@@ -112,7 +112,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start_IT(&htim13);
 	CAN_Init();
-	dbus_uart_init();
 	IIR_Init(&yaw_omg_LPF);
 	IIR_Init(&Pitch_omg_LPF);
   /* USER CODE END 2 */

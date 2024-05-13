@@ -21,9 +21,9 @@ float PID_GIMBAL_3508_1_SPEED_K[3] = {10,0.5,2};
 float PID_GIMBAL_3508_2_SPEED_K[3] = {10,0.5,2};
 float PID_GIMBAL_2006_SPEED_K[3] = {5,0.5,0};
 float PID_GIMBAL_6020_SPEED_K[3] = {78,1.5,0};//130,0.6,0
-float PID_GIMBAL_6020_ANGLE_K[3] = {0.800000024,0.000300000014,12.5};//0.4,0.0003,7.8
-float PID_PITCH_4310_SPEED_K[3] = {0.7,0.02,0.250000003};
-float PID_PITCH_4310_ANGLE_K[3] = {9.3,0.650000989,4.5};//30,0.01,20	
+float PID_GIMBAL_6020_ANGLE_K[3] = {0.75,0.000300000014,11.5};//0.4,0.0003,7.8
+float PID_PITCH_4310_SPEED_K[3] = {0.699999988,0.00999999978,0.200000003};
+float PID_PITCH_4310_ANGLE_K[3] = {11.5,0.949999988,5.5};//30,0.01,20	
 
 float Div1 = 8000;      //衰减系数
 float k1,k2;
@@ -107,7 +107,14 @@ void Motor_Ctrl(void)
 	Motor_4310.speed_rpm_target = PID_PITCH_4310_ANGLE.out;
 	Motor_4310.v_speed_rpm = IIR_Calc(Motor_4310.speed_rpm_target,&Pitch_omg_LPF);
 	pid_caculate(&PID_PITCH_4310_SPEED, Motor_4310.speed_rpm, Motor_4310.speed_rpm_target);		//pitch轴电机速度环
-	Motor_4310_send(&CAN_PITCH_4310,0x02,0,0,0,0,PID_PITCH_4310_SPEED.out);//PID_PITCH_4310_SPEED.out
+	if(Motor_4310.msg_frequent < 900)
+	{
+		Motor_4310_send(&CAN_PITCH_4310,0x02,0,0,0,0,0);
+	}
+	else
+	{
+	  Motor_4310_send(&CAN_PITCH_4310,0x02,0,0,0,0,PID_PITCH_4310_SPEED.out);//PID_PITCH_4310_SPEED.out
+	}
 
 //	PID_YAW_4310_ANGLE.f_cal_pid(&PID_YAW_4310_ANGLE, Gimbal_Data.yaw_angle, Gimbal_Data.yaw_angle_target);	//大yaw轴电机位置环
 //	PID_YAW_4310_SPEED.f_cal_pid(&PID_YAW_4310_SPEED, Motor_4310.speed_rpm, Motor_4310.speed_rpm_target);		//大yaw轴电机速度环

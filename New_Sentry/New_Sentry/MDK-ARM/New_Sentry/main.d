@@ -71,3 +71,9 @@ new_sentry\main.o: ./DBUS/dbus.h
 new_sentry\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 new_sentry\main.o: ./Communication/global_can.h
 new_sentry\main.o: ./Judge/judge.h
+new_sentry\main.o: ./Motor/MotorCtrl.h
+new_sentry\main.o: ./Motor/DJI3508.h
+new_sentry\main.o: ./Communication/global_can.h
+new_sentry\main.o: ./Motor/DM4310.h
+new_sentry\main.o: ./Communication/global_can.h
+new_sentry\main.o: ./ALG/pid.h

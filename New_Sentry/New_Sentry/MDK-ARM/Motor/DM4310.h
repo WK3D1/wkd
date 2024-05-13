@@ -18,9 +18,12 @@ typedef struct Motor_4310Type
 	int32_t		total_angle;
 	uint16_t 	last_angle;
 	uint32_t	systime;			//本次接收的系统时间
-	uint16_t RX_Frequancy;  //接收频率
 	uint16_t  dm_err;       //判断帧，0失能，1使能
 	uint8_t  	hall;
+	
+	uint32_t msg_missing_time;
+	uint32_t msg_cnt;
+	uint32_t msg_frequent; //接收频率
 } Motor_4310Type;
 
 extern Motor_4310Type Motor_4310;

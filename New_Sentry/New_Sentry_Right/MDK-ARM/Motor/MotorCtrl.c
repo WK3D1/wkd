@@ -26,7 +26,7 @@ float PID_GIMBAL_2006_SPEED_K[3] = {5,0.5,0};
 float PID_GIMBAL_6020_SPEED_K[3] = {75,1.25,0.5};//130,0.6,0
 float PID_GIMBAL_6020_ANGLE_K[3] = {0.75,0.000300000014,11.5};//0.4,0.0003,7.8
 float PID_PITCH_4310_SPEED_K[3] = {0.699999988,0.00999999978,0.200000003};
-float PID_PITCH_4310_ANGLE_K[3] = {12.5,0.949999988,5.5};//30,0.01,20	
+float PID_PITCH_4310_ANGLE_K[3] = {12.3,0.949999988,5.5};//30,0.01,20	
 
 float Div1 = 8000;      //衰减系数
 float k1,k2;
@@ -108,6 +108,15 @@ void Motor_Ctrl(void)
 	Motor_4310.speed_rpm_target = PID_PITCH_4310_ANGLE.out;
 	Motor_4310.v_speed_rpm = IIR_Calc(Motor_4310.speed_rpm_target,&Pitch_omg_LPF);
 	pid_caculate(&PID_PITCH_4310_SPEED, Motor_4310.speed_rpm, Motor_4310.speed_rpm_target);		//pitch轴电机速度环
+	
+	if(Motor_4310.msg_frequent < 900)
+	{
+		Motor_4310_send(&CAN_PITCH_4310,0x03,0,0,0,0,0);
+	}
+	else
+	{
+	  Motor_4310_send(&CAN_PITCH_4310,0x03,0,0,0,0,PID_PITCH_4310_SPEED.out);//PID_PITCH_4310_SPEED.out
+	}
 	Motor_4310_send(&CAN_PITCH_4310,0x03,0,0,0,0,PID_PITCH_4310_SPEED.out);//PID_PITCH_4310_SPEED.out
 	
 

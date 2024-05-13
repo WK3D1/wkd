@@ -58,7 +58,8 @@ void vision_call_back_handler_Judge_msg(uint8_t *buff)//对视觉接收数据进行处理
 						memcpy(&(VisionValue.left_real_heat.buff[0]),&buff[2],4);
 						memcpy(&(VisionValue.right_real_heat.buff[0]),&buff[6],4);
 						memcpy(&(VisionValue.left_bullet_speed.buff[0]),&buff[10],4);
-						memcpy(&(VisionValue.right_bullet_speed.buff[0]),&buff[14],4); 					
+						memcpy(&(VisionValue.right_bullet_speed.buff[0]),&buff[14],4);
+            memcpy(&(VisionValue.game_progress.buff[0]),&buff[18],4); 					
 				
         }
     }
@@ -95,7 +96,6 @@ void vision_transmit(){
 	
 	vision_transmit_package_AutoaimFeedback(vision_transmit_buff);
 	CDC_Transmit_FS(vision_transmit_buff, VISION_BUFLEN);
-	HAL_Delay(1);
 	
 
 }
