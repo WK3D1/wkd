@@ -163,27 +163,17 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>PID_GIMBAL_6020_ANGLE,0x0A</ItemText>
+          <ItemText>PID_PITCH_4310_ANGLE,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>PID_GIMBAL_6020_SPEED,0x0A</ItemText>
+          <ItemText>pitchsee</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>PID_PITCH_4310_ANGLE,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>3</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>PID_PITCH_4310_SPEED,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>4</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>RC_Ctl,0x0A</ItemText>
+          <ItemText>PID_GIMBAL_6020_ANGLE,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>

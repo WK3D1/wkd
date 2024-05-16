@@ -16,7 +16,7 @@ typedef enum
  AUTO_MODE ,
  SHOOT_MODE ,
  SPINNING ,
- FIX_MODE ,
+ DIFFSPINNING ,
 }robot_mode_t;
 
 typedef struct RobotDataType

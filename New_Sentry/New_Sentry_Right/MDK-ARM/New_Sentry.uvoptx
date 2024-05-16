@@ -268,7 +268,7 @@
         <Ww>
           <count>21</count>
           <WinNumber>1</WinNumber>
-          <ItemText>VisionValue</ItemText>
+          <ItemText>VisionValue,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>22</count>

@@ -37,7 +37,7 @@ void vision_call_back_handler_Chassis_Control(uint8_t *buff)//对视觉接收数据进行
 
     if( buff[0]=='s' && buff[31]=='e' )
     {
-        if (buff[1] == 0xA3) // 底盘控制
+        if (buff[1] == 0xA2) // 底盘控制
         {
             check_ok++;  //接收正确计数
             vision_missing_time = 0;  //清零失联时间
@@ -53,7 +53,7 @@ void vision_call_back_handler_Interaction_Control(uint8_t *buff)//对视觉接收数据
 	
 	    if( buff[0]=='s' && buff[31]=='e' )
       {
-        if (buff[1] == 0xA4) //比赛交互控制
+        if (buff[1] == 0xA3) //比赛交互控制
         {
             check_ok++;  //接收正确计数
             vision_missing_time = 0;  //清零失联时间
@@ -69,7 +69,7 @@ void vision_call_back_handler_Robotmode_Control(uint8_t *buff)//对视觉接收数据进
 	
 	    if( buff[0]=='s' && buff[31]=='e' )
       {
-        if (buff[1] == 0xA5) //比赛交互控制
+        if (buff[1] == 0xA4) //比赛交互控制
         {
             check_ok++;  //接收正确计数
             vision_missing_time = 0;  //清零失联时间
@@ -116,7 +116,7 @@ void vision_transmit_handler(void)//对要发送给视觉的s数据进行处理
 	if(robot_id==blue)
 	{
 		
-	VisionTransmit.enemy_color = 'r';	//红
+	VisionTransmit.enemy_color.value_offset = 0;	//红
 	VisionTransmit.blue_base_HP.value_offset=judge_frame_rx.data.game_robot_HP.blue_base_HP;
 	VisionTransmit.blue_outpost_HP.value_offset=judge_frame_rx.data.game_robot_HP.blue_outpost_HP;
 		
@@ -124,7 +124,7 @@ void vision_transmit_handler(void)//对要发送给视觉的s数据进行处理
 	else if(robot_id==red)
 	{
 		
-	VisionTransmit.enemy_color = 'b';	//蓝
+	VisionTransmit.enemy_color.value_offset = 1;	//蓝
 	VisionTransmit.red_base_HP.value_offset=judge_frame_rx.data.game_robot_HP.red_base_HP;
 	VisionTransmit.red_outpost_HP.value_offset=judge_frame_rx.data.game_robot_HP.red_outpost_HP;
 		
@@ -136,9 +136,18 @@ void vision_transmit_handler(void)//对要发送给视觉的s数据进行处理
 	VisionTransmit.standard_7map_y.value_offset=judge_frame_rx.data.smallmap_communicate.target_position_y;
 	
 	//读取弹速
-	VisionTransmit.right_bullet_speed.value_offset = judge_frame_rx.data.shoot_data.bullet_speed;
+	if(judge_frame_rx.data.shoot_data.shooter_id == 2)
+	{
+		VisionTransmit.right_bullet_speed.value_offset = judge_frame_rx.data.shoot_data.bullet_speed;
+	}
+	else if(judge_frame_rx.data.shoot_data.shooter_id == 1)
+	{
+		VisionTransmit.left_bullet_speed.value_offset = judge_frame_rx.data.shoot_data.bullet_speed;
+	}
 	//读取发弹量
 	VisionTransmit.allowance_capacity.value_offset = JUDGE_Remaining();
+	//读取经济
+	VisionTransmit.game_economy.value_offset = judge_frame_rx.data.bullet_remaining.coin_remaining_num;
 	
 	//读取热量
 	VisionTransmit.left_real_heat.value_offset = JUDGE_usGetRemoteHeat17_1();
@@ -184,13 +193,13 @@ void vision_transmit_package_Game(uint8_t *buff)
 	 vision_transmit_buff[0] = 's';	//起始位
 	 vision_transmit_buff[1] = 0xB3; //比赛信息
 
-	 vision_transmit_buff[2] = VisionTransmit.enemy_color;	//敌方颜色 0：红 1：蓝
-	 memcpy(&(vision_transmit_buff[3]),  &VisionTransmit.game_progress.value_offset, 4);	
-	 memcpy(&(vision_transmit_buff[7]),  &VisionTransmit.game_time.value_offset, 4);	
-	 memcpy(&(vision_transmit_buff[11]),  &VisionTransmit.game_economy.value_offset, 4);
-	 memcpy(&(vision_transmit_buff[15]),  &VisionTransmit.allowance_capacity.value_offset, 4);
-	 memcpy(&(vision_transmit_buff[19]),  &VisionTransmit.left_condition.value_offset, 4);
-	 memcpy(&(vision_transmit_buff[23]),  &VisionTransmit.right_condition.value_offset, 4);
+	 memcpy(&(vision_transmit_buff[2]),  &VisionTransmit.enemy_color.value_offset, 4);		//敌方颜色 0：红 1：蓝
+	 memcpy(&(vision_transmit_buff[6]),  &VisionTransmit.game_progress.value_offset, 4);	
+	 memcpy(&(vision_transmit_buff[10]),  &VisionTransmit.game_time.value_offset, 4);	
+	 memcpy(&(vision_transmit_buff[14]),  &VisionTransmit.game_economy.value_offset, 4);
+	 memcpy(&(vision_transmit_buff[18]),  &VisionTransmit.allowance_capacity.value_offset, 4);
+	 memcpy(&(vision_transmit_buff[22]),  &VisionTransmit.left_condition.value_offset, 4);
+	 memcpy(&(vision_transmit_buff[26]),  &VisionTransmit.right_condition.value_offset, 4);
 	
 	 vision_transmit_buff[31] = 'e'; //结束位
 }
@@ -294,8 +303,8 @@ void vision_transmit_package_Judge_msg(uint8_t *buff)
 
 	 memcpy(&(vision_transmit_buff[2]),   &VisionTransmit.left_real_heat.value_offset, 4);	
 	 memcpy(&(vision_transmit_buff[6]),   &VisionTransmit.right_real_heat.value_offset, 4);	
-	 memcpy(&(vision_transmit_buff[10]),   &VisionTransmit.left_bullet_speed.value_offset, 4);	
-	 memcpy(&(vision_transmit_buff[14]),   &VisionTransmit.right_bullet_speed.value_offset, 4);	
+	 memcpy(&(vision_transmit_buff[10]),  &VisionTransmit.left_bullet_speed.value_offset, 4);	
+	 memcpy(&(vision_transmit_buff[14]),  &VisionTransmit.right_bullet_speed.value_offset, 4);	
 	
 	 vision_transmit_buff[31] = 'e'; //结束位
 }

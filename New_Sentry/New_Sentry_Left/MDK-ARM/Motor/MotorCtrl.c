@@ -21,9 +21,9 @@ float PID_GIMBAL_3508_1_SPEED_K[3] = {10,0.5,2};
 float PID_GIMBAL_3508_2_SPEED_K[3] = {10,0.5,2};
 float PID_GIMBAL_2006_SPEED_K[3] = {5,0.5,0};
 float PID_GIMBAL_6020_SPEED_K[3] = {78,1.5,0};//130,0.6,0
-float PID_GIMBAL_6020_ANGLE_K[3] = {0.75,0.000300000014,11.5};//0.4,0.0003,7.8
+float PID_GIMBAL_6020_ANGLE_K[3] = {0.75,0.000300000014,11};//0.4,0.0003,7.8
 float PID_PITCH_4310_SPEED_K[3] = {0.699999988,0.00999999978,0.200000003};
-float PID_PITCH_4310_ANGLE_K[3] = {11.5,0.949999988,5.5};//30,0.01,20	
+float PID_PITCH_4310_ANGLE_K[3] = {8,0,6};//30,0.01,20	
 
 float Div1 = 8000;      //衰减系数
 float k1,k2;
@@ -66,7 +66,7 @@ void Handle_Angle8192_PID_Over_Zero(float *tar, float *cur)
 float yawspeed;
 float yaw_angle;
 float yaw_angle_target;
-
+float pitchsee;
 void Motor_Ctrl(void)
 {
 	
@@ -97,7 +97,8 @@ void Motor_Ctrl(void)
 	Motor_6020[0].speed_rpm_target = PID_GIMBAL_6020_ANGLE.out;
 	k2 = 0.5f + (Motor_6020[0].speed_rpm - Motor_6020[0].last_speed_rpm) / Div2;
 	float yaw_speed = Motor_6020[0].last_speed_rpm * k2 + (1 - k2) * Motor_6020[0].speed_rpm;
-	pid_caculate(&PID_GIMBAL_6020_SPEED, yaw_speed, Motor_6020[0].speed_rpm_target);//	Motor_6020[0].speed_rpm_target//yaw轴电机速度环
+	Motor_6020[0].v_speed_rpm = IIR_Calc(yaw_speed,&yaw_omg_LPF);
+	pid_caculate(&PID_GIMBAL_6020_SPEED, Motor_6020[0].v_speed_rpm, Motor_6020[0].speed_rpm_target);//	Motor_6020[0].speed_rpm_target//yaw轴电机速度环
 	Motor_6020_send(&CAN_GIMBAL_6020, 0x1FF, 0, 0, 0, PID_GIMBAL_6020_SPEED.out);	//yaw轴6020在can1上 PID_GIMBAL_6020_SPEED.out + VISION_YAW_VFF
 //	
 	

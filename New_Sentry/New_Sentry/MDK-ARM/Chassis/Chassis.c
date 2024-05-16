@@ -39,7 +39,7 @@ void Robot_Mode_Select(void)
 	}
 	else if(RC_Ctl.rc.s1 == 2 && RC_Ctl.rc.s2 == 3 )
 	{
-		Chassis_Data.RobotData.robot_mode = FIX_MODE;   // 大YAW固定模式
+		Chassis_Data.RobotData.robot_mode = DIFFSPINNING;   // 小陀螺反转模式
 	}
 	else if(RC_Ctl.rc.s1 == 3 && RC_Ctl.rc.s2 == 3)
 	{
@@ -100,9 +100,9 @@ void StartChassisTask(void const * argument)
 				//遥控器赋值
 				float temp_yaw_angle_target = Gimbal_Data.yaw_angle_target - 0.0001f * RC_Ctl.rc.ch2;
 				Gimbal_Data.yaw_angle_target = __normalangle(&temp_yaw_angle_target, -180, 180);
-				Chassis_Data.vx_target = RAMP_float( (RC_Ctl.rc.ch1)/660.f, 3, 20 );
-				Chassis_Data.vy_target = RAMP_float( (RC_Ctl.rc.ch0)/660.f, 3, 20 );
-				Chassis_Data.vw_target = RAMP_float(0.007f, 3, 20 );
+				Chassis_Data.vx_target = (RC_Ctl.rc.ch1)/660.f;
+				Chassis_Data.vy_target = (RC_Ctl.rc.ch0)/660.f;
+				Chassis_Data.vw_target = 0.005f;
 
 				//速度解算
 				speed_cal(Chassis_Data.vx_target, Chassis_Data.vy_target, Chassis_Data.vw_target, Chassis_Data.angle_yaw_error, &Chassis_Data.motor1_speed_target, &Chassis_Data.motor2_speed_target, &Chassis_Data.motor3_speed_target, &Chassis_Data.motor4_speed_target); 
@@ -117,8 +117,8 @@ void StartChassisTask(void const * argument)
 				//遥控器赋值
 				float temp_yaw_angle_target = Gimbal_Data.yaw_angle_target - 0.0001f * RC_Ctl.rc.ch2;
 				Gimbal_Data.yaw_angle_target = __normalangle(&temp_yaw_angle_target, -180, 180);
-				Chassis_Data.vx_target = RAMP_float( (RC_Ctl.rc.ch1)/660.f, 3, 20 );
-				Chassis_Data.vy_target = RAMP_float( (RC_Ctl.rc.ch0)/660.f, 3, 20 );
+				Chassis_Data.vx_target = (RC_Ctl.rc.ch1)/660.f;
+				Chassis_Data.vy_target = (RC_Ctl.rc.ch0)/660.f;
 				Chassis_Data.vw_target = 0;
 				//速度解算
 				speed_cal(Chassis_Data.vx_target, Chassis_Data.vy_target, Chassis_Data.vw_target, Chassis_Data.angle_yaw_error, &Chassis_Data.motor1_speed_target, &Chassis_Data.motor2_speed_target, &Chassis_Data.motor3_speed_target, &Chassis_Data.motor4_speed_target); 
@@ -133,8 +133,8 @@ void StartChassisTask(void const * argument)
 				//遥控器赋值
 				float temp_yaw_angle_target = Gimbal_Data.yaw_angle_target - 0.0001f * RC_Ctl.rc.ch2;
 				Gimbal_Data.yaw_angle_target = __normalangle(&temp_yaw_angle_target, -180, 180);
-				Chassis_Data.vx_target = RAMP_float( (RC_Ctl.rc.ch1)/200.f, 3, 20 );
-				Chassis_Data.vy_target = RAMP_float( (RC_Ctl.rc.ch0)/200.f, 3, 20 );
+				Chassis_Data.vx_target = (RC_Ctl.rc.ch1)/200.f;
+				Chassis_Data.vy_target = (RC_Ctl.rc.ch0)/200.f;
 				angle_match();
 				pid_caculate(&Chassis_Follow_PID,mintemp1,0);
 				Chassis_Data.vw_target = -Chassis_Follow_PID.out;
@@ -153,10 +153,14 @@ void StartChassisTask(void const * argument)
 				Chassis_Data.vx_target = VisionValue.vision_absolute_vx.value;
 				Chassis_Data.vy_target = -VisionValue.vision_absolute_vy.value;
 				Chassis_Data.vw_target = 0;
-//			if(get_outpost_HP()<=0)
-//			{
-//				Chassis_Data.vw_target = 0.0036f;
-//			}
+			if(get_outpost_HP()<=0 && judge_frame_rx.data.game_status.game_progress == 4 && VisionValue.vision_absolute_vx.value == 0 && VisionValue.vision_absolute_vy.value)
+			{
+				Chassis_Data.vw_target = 0.007f;
+			}
+			else if(get_outpost_HP()<=0 && judge_frame_rx.data.game_status.game_progress == 4)
+			{
+				Chassis_Data.vw_target = 0.004f;
+			}
 				//速度解算
 				speed_cal(Chassis_Data.vx_target, Chassis_Data.vy_target, Chassis_Data.vw_target, Chassis_Data.angle_yaw_error, &Chassis_Data.motor1_speed_target, &Chassis_Data.motor2_speed_target, &Chassis_Data.motor3_speed_target, &Chassis_Data.motor4_speed_target); 
 				Motor_3508[0].speed_rpm_target = Chassis_Data.motor1_speed_target;
@@ -164,7 +168,7 @@ void StartChassisTask(void const * argument)
 				Motor_3508[2].speed_rpm_target = Chassis_Data.motor3_speed_target;
 				Motor_3508[3].speed_rpm_target = Chassis_Data.motor4_speed_target;
 			}
-			else if(Chassis_Data.RobotData.robot_mode == FIX_MODE)
+			else if(Chassis_Data.RobotData.robot_mode == DIFFSPINNING)
 			{
 				Chassis_Data.angle_yaw_error = GIMBLE_YAW_MOTOR_ANGLE - Motor_4310.angle;
 				//遥控器赋值
@@ -172,7 +176,7 @@ void StartChassisTask(void const * argument)
 				Gimbal_Data.yaw_angle_target = __normalangle(&temp_yaw_angle_target, -180, 180);
 				Chassis_Data.vx_target = Gimbal_Data.Speed_Vx;
 				Chassis_Data.vy_target = Gimbal_Data.Speed_Vy;
-				Chassis_Data.vw_target = 0.0036f;
+				Chassis_Data.vw_target = -0.005f;
 
 				//速度解算
 				speed_cal(Chassis_Data.vx_target, Chassis_Data.vy_target, Chassis_Data.vw_target, Chassis_Data.angle_yaw_error, &Chassis_Data.motor1_speed_target, &Chassis_Data.motor2_speed_target, &Chassis_Data.motor3_speed_target, &Chassis_Data.motor4_speed_target); 

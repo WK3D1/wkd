@@ -139,12 +139,6 @@ typedef struct{
 		int value_offset;
 	}allowance_capacity;//允许发弹量
 	
-	union
-	{
-		uint8_t buff[2];
-		int value_offset;
-	}right_bullet_speed;// 右弹速
-	
 	
 }VisionTransmitType;
 

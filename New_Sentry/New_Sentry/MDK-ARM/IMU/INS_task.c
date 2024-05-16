@@ -179,7 +179,7 @@ fp32 IMU_angle[3] = {0.0f, 0.0f, 0.0f};
 fp32 Last_ol[3];
 
 float *IMU_kf_result;
-float yaw_add_one_tick=-0.0000556595769f;
+float yaw_add_one_tick=-0.0000056595769f;
 float yaw_offset;
 				//ÏûÁãÆ®
 int pre_tick = 0;

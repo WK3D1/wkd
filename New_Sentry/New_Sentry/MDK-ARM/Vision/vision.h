@@ -108,7 +108,11 @@ typedef struct{
 
 typedef struct{
 	
-	uint8_t enemy_color;
+	union
+	{
+		uint8_t buff[4];
+		int value_offset;
+	}enemy_color;
 	uint8_t vision_mode;
 	
 	uint8_t rune_type;	//0：不可激活 1：小符 2：大符	

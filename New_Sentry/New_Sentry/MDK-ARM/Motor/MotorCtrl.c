@@ -23,7 +23,7 @@ float PID_CHASSIS_3508_2_SPEED_K[3] = {6,0.5,0};
 float PID_CHASSIS_3508_3_SPEED_K[3] = {6,0.5,0};
 float PID_CHASSIS_3508_4_SPEED_K[3] = {6,0.5,0};
 float PID_YAW_4310_SPEED_K[3] = {0,0,0};
-float PID_YAW_4310_ANGLE_K[3] = {0.850000024,0.00499999989,50};
+float PID_YAW_4310_ANGLE_K[3] = {1.1,0.0025,50};
 
 /* 角度Pid时，在更新tar和cur之后紧接着调用, 处理完再进行PID计算*/
 void Handle_AnglePI_PID_Over_Zero(float *tar, float *cur)

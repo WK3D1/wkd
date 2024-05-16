@@ -7,8 +7,8 @@
 //#include "DJI2006.h"
 #include "pid.h"
 //3796
-#define GIMBLE_YAW_MOTOR_ANGLE 2.61590838f 		//当云台正方向与底盘正方向一致时，大yaw轴电机的对应绝对角度
-#define GIMBLE_YAW_MOTOR_ANGLE_FU -0.412599087f //当云台正方向与底盘负方向一致时，大yaw轴电机的对应绝对角度
+#define GIMBLE_YAW_MOTOR_ANGLE_FU 1.68169951f 		//当云台正方向与底盘正方向一致时，大yaw轴电机的对应绝对角度
+#define GIMBLE_YAW_MOTOR_ANGLE -1.49867404f //当云台正方向与底盘负方向一致时，大yaw轴电机的对应绝对角度
 
 #define GIMBLE_INIT_YAW_OK_ANGLE 10
 

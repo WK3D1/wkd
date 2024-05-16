@@ -37,13 +37,14 @@ void StartShootTask(void const * argument)
 
 /********************拨弹盘控制程序*********************/
 float ammu_speed = SHOOT_HEAT_ENOUGH;
+uint16_t  RemainingHeat;
+
 void Ammunition_Motor_Ctrol(void)
 {
 //	if(VisionValue.game_progress.value == 4)
+	  RemainingHeat = 400 - VisionValue.left_real_heat.value;
 		if(Gimbal_Data.Shoot_Data.use_vision == 1)	//如果是视觉模式
 		{
-			Revolver_Heat_Limit();
-			
 			if(Gimbal_Data.Shoot_Data.vision_mode == 1)		//自瞄
 			{
 				if(VisionValue.center_flag == '1')	//如果可以射击
@@ -58,6 +59,10 @@ void Ammunition_Motor_Ctrol(void)
 					}
 				}
 				else
+				{
+					Motor_2006[0].speed_rpm_target = 0;
+				}
+				if(RemainingHeat < 30)
 				{
 					Motor_2006[0].speed_rpm_target = 0;
 				}
@@ -88,62 +93,26 @@ void Ammunition_Motor_Ctrol(void)
 
 /***********摩擦轮控制程序*************/
 float Now_speed = 0;		//当前弹速
-float hight_speed = 7500;
-float low_speed = 7200;
+float hight_speed = 7200; 
+float low_speed = 7000;
 
 
 void Friction_Motor_Ctrol(void)
 {
-			if((RC_Ctl.rc.s1 == 3 && RC_Ctl.rc.s2 == 1) || (Gimbal_Data.Shoot_Data.use_vision == 1))
-		  {
-				Gimbal_Data.Shoot_Data.Friction_Motor_Speed_Set = hight_speed;
-				Now_speed = JUDGE_usGetSpeedHeat17();
-				Motor_3508[0].speed_rpm_target = Gimbal_Data.Shoot_Data.Friction_Motor_Speed_Set;
-				Motor_3508[1].speed_rpm_target = -Gimbal_Data.Shoot_Data.Friction_Motor_Speed_Set;  
-				if(Now_speed > 29.5f)
-				{
-					Gimbal_Data.Shoot_Data.Friction_Motor_Speed_Set = low_speed;
-				}
-		  }
-		  else
-		  {
-			  Motor_3508[0].speed_rpm_target = 0;
-		    Motor_3508[1].speed_rpm_target = 0;
-		  }
-}
-
-/**
-  * @brief  枪管热量限制
-  * @param  void
-  * @retval 热量是否超限
-  * @attention  超限要重置一下拨盘,根据剩余可发弹量来做闭环
-  *             如果做双枪管则此函数不适用
-  */
-			uint16_t  usHeatReal_1		= 0;
-      uint16_t  usHeatLimit_Rest_1 = 0;
-			uint16_t  usHeatLimit;
-void Revolver_Heat_Limit(void)
-{
-//	if(JUDGE_Game_Status()!=4)
-//		return;
-/*数据处理*/
-	/* 读取热量 */
-	usHeatReal_1 = VisionValue.left_real_heat.value;
-	/* 读取热量上限*/
-	usHeatLimit = VisionValue.left_bullet_speed.value;//裁判系统检测到打一颗，枪口热量加10，与其初速度无关+
-
-  usHeatLimit_Rest_1 = usHeatLimit - usHeatReal_1;
-/*数据处理*/
-		if (usHeatLimit_Rest_1 >= usHeatLimit / 2)//剩余热量大于一半
-	{
-    ammu_speed =  SHOOT_HEAT_ENOUGH ;
-	}
-	else if(usHeatLimit_Rest_1 >= usHeatLimit / 4)	//剩余能量大于四分之一
-	{
-    ammu_speed =  (150.0f-usHeatLimit_Rest_1)/100.0f*SHOOT_HEAT_ENOUGH ;
-	}
-	else
-	{
-    ammu_speed =  0 ;
-	}
+		if((RC_Ctl.rc.s1 == 3 && RC_Ctl.rc.s2 == 1) || (Gimbal_Data.Shoot_Data.use_vision == 1))
+		{
+			Gimbal_Data.Shoot_Data.Friction_Motor_Speed_Set = hight_speed;
+			Now_speed = VisionValue.left_bullet_speed.value;
+			if(Now_speed > 29.5f)
+			{
+				Gimbal_Data.Shoot_Data.Friction_Motor_Speed_Set = low_speed;
+			}
+			Motor_3508[0].speed_rpm_target = Gimbal_Data.Shoot_Data.Friction_Motor_Speed_Set;
+			Motor_3508[1].speed_rpm_target = -Gimbal_Data.Shoot_Data.Friction_Motor_Speed_Set;  
+		 }
+		 else
+		 {
+			 Motor_3508[0].speed_rpm_target = 0;
+		   Motor_3508[1].speed_rpm_target = 0;
+		 }
 }

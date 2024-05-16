@@ -114,6 +114,7 @@ int main(void)
 	CAN_Init();
 	IIR_Init(&yaw_omg_LPF);
 	IIR_Init(&Pitch_omg_LPF);
+	dbus_uart_init();
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */

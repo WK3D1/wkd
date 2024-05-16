@@ -440,11 +440,11 @@ uint8_t JUDGE_ucGetRobotLevel(void)
   */
 uint16_t JUDGE_usGetRemoteHeat17_1(void)
 {
-    return judge_frame_rx.data.power_heat_data.shooter_id1_17mm_cooling_heat;
+    return judge_frame_rx.data.power_heat_data.shooter_id1_17mm_cooling_heat;//代码的左
 }
 uint16_t JUDGE_usGetRemoteHeat17_2(void)
 {
-    return judge_frame_rx.data.power_heat_data.shooter_id2_17mm_cooling_heat;
+    return judge_frame_rx.data.power_heat_data.shooter_id2_17mm_cooling_heat;//代码的右
 }
 /**
   * @brief  读取比赛类型
@@ -471,14 +471,24 @@ uint8_t JUDGE_Game_Status(void)
 /**
   * @brief  读取射速
   * @param  void
-  * @retval 42mm
-  * @attention  实时射速
+  * @retval 17mm
+  * @attention  双枪管
   */
-float JUDGE_usGetSpeedHeat17(void)
-{
-    return judge_frame_rx.data.shoot_data.bullet_speed;
-}
+float bullet_speed1,bullet_speed2=0;
 
+void JUDGE_usGetSpeed17_double(void)
+{
+    
+	if(judge_frame_rx.data.shoot_data.shooter_id==2)
+	{
+		bullet_speed2=judge_frame_rx.data.shoot_data.bullet_speed;
+	}
+	else if(judge_frame_rx.data.shoot_data.shooter_id==1)
+	{
+	  bullet_speed1=judge_frame_rx.data.shoot_data.bullet_speed;
+	}
+	
+}
 /**
   * @brief  读取允许发弹量
   * @param  void
@@ -490,67 +500,6 @@ float JUDGE_Remaining(void)
     return judge_frame_rx.data.bullet_remaining.bullet_remaining_num_17mm;
 }
 
-///**
-//  * @brief  统计发弹量
-//  * @param  void
-//  * @retval void
-//  * @attention
-//  */
-//portTickType shoot_time;//发射延时测试
-//portTickType shoot_ping;//计算出的最终发弹延迟
-//float Shoot_Speed_Now = 0;
-//float Shoot_Speed_Last = 0;
-//float Shoot2_Speed_Now = 0;
-//float Shoot2_Speed_Last = 0;
-//void JUDGE_ShootNumCount(void)
-//{
-//	if(judge_frame_rx.data.shoot_data.shooter_id == Shooter_ID)
-//	{
-//    Shoot_Speed_Now = judge_frame_rx.data.shoot_data.bullet_speed;
-//    if(Shoot_Speed_Last != Shoot_Speed_Now)//因为是float型，几乎不可能完全相等,所以速度不等时说明发射了一颗弹
-//    {
-//        ShootNum++;
-//        Shoot_Speed_Last = Shoot_Speed_Now;
-//    }
-//    shoot_time = xTaskGetTickCount();//获取弹丸发射时的系统时间
-//    //shoot_ping = shoot_time - REVOL_uiGetRevolTime();//计算延迟
-//	}
-//	else
-//	{
-//		Shoot2_Speed_Now = judge_frame_rx.data.shoot_data.bullet_speed;
-//    if(Shoot2_Speed_Last != Shoot2_Speed_Now)//因为是float型，几乎不可能完全相等,所以速度不等时说明发射了一颗弹
-//    {
-//        Shoot2Num++;
-//        Shoot2_Speed_Last = Shoot2_Speed_Now;
-//    }
-//	}
-//}
-
-/**
-  * @brief  读取发弹量
-  * @param  void
-  * @retval 发弹量
-  * @attention 不适用于双枪管
-  */
-uint16_t JUDGE_usGetShootNum(void)
-{
-    return ShootNum;
-}
-uint16_t JUDGE_usGetShootSum(void)
-{
-    return ShootNum+Shoot2Num;
-}
-
-/**
-  * @brief  发弹量清零
-  * @param  void
-  * @retval void
-  * @attention
-  */
-void JUDGE_ShootNum_Clear(void)
-{
-    ShootNum = 0;
-}
 
 /**
   * @brief  读取枪口热量
@@ -558,27 +507,29 @@ void JUDGE_ShootNum_Clear(void)
   * @retval 当前等级热量上限
   * @attention
   */
-uint16_t JUDGE_usGetHeatLimit(void)
+uint16_t JUDGE_usGetHeatLimit1(void)
+{
+    return judge_frame_rx.data.game_robot_status.shooter_id1_17mm_cooling_limit;
+}
+
+uint16_t JUDGE_usGetHeatLimit2(void)
 {
     return judge_frame_rx.data.game_robot_status.shooter_id2_17mm_cooling_limit;
 }
-/**
-  * @brief  读取枪口射速上限
-  * @param  void
-  * @retval 当前等级射速上限
-  * @attention
-  */
-uint8_t JUDGE_usGetSpeedLimit(void)
-{
-    return judge_frame_rx.data.game_robot_status.shooter_id2_17mm_speed_limit;
-}
+
+
 /**
   * @brief  当前等级对应的枪口每秒冷却值
   * @param  void
   * @retval 当前等级冷却速度
   * @attention
   */
-uint16_t JUDGE_usGetShootCold(void)
+uint16_t JUDGE_usGetShootCold1(void)
+{
+    return judge_frame_rx.data.game_robot_status.shooter_id1_17mm_cooling_rate;
+}
+
+uint16_t JUDGE_usGetShootCold2(void)
 {
     return judge_frame_rx.data.game_robot_status.shooter_id2_17mm_cooling_rate;
 }

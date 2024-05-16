@@ -48,14 +48,6 @@ void StartGimbalTask(void const * argument)
   */
 void Robot_Mode_Select(void)
 {
-	
-	if(VisionValue.find_bool == '0' || VisionValue.find_bool == '1')
-	{
-		RC_Ctl.rc.s1 = 1; 
-		RC_Ctl.rc.s2 = 2;
-		Gimbal_Data.RobotData.robot_mode = AUTO_MODE;
-		Gimbal_Data.Shoot_Data.use_vision = 1;
-	}
 	if( RC_Ctl.rc.s1 == 1 && RC_Ctl.rc.s2 == 2 )
 	{
 		Gimbal_Data.RobotData.robot_mode = AUTO_MODE;
@@ -182,8 +174,8 @@ int Scan_TIME;
 double Scan_w =  _2PI / 500;
 int Change_Mode_Flag;
 int Change_Scan_Rage = 0;
-float Pitch_Move_Speed = 0.003f;
-float Yaw_Move_Speed = 2.0f;
+float Pitch_Move_Speed = 0.002f;
+float Yaw_Move_Speed = 0.5f;
 
 
 void Remote_Move()
@@ -192,20 +184,8 @@ void Remote_Move()
 	{
 			if(Gimbal_Data.Shoot_Data.use_vision == 0)
 		{
-			if(Gimbal_Data.IMUData.pitch_target > PITCH_ANGLE_TOP)
-			{
-				Gimbal_Data.IMUData.pitch_target = PITCH_ANGLE_TOP;
-			}
-			else if(Gimbal_Data.IMUData.pitch_target < PITCH_ANGLE_BOTTOM)
-			{
-				Gimbal_Data.IMUData.pitch_target = PITCH_ANGLE_BOTTOM;
-			}
-			else
-			{
-				Gimbal_Data.IMUData.pitch_target += RC_Ctl.rc.ch3/660.f*0.001f;
-			}
-			Gimbal_Data.IMUData.yaw_target -= RC_Ctl.rc.ch2/660.f;
-
+			Gimbal_Data.IMUData.pitch_target += RC_Ctl.rc.ch3/660.f*0.001f;
+			//Gimbal_Data.IMUData.yaw_target -= RC_Ctl.rc.ch2/660.f;
 		}
 	}
 	else if(Gimbal_Data.Shoot_Data.use_vision == 1)
