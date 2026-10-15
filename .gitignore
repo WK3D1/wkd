@@ -1,0 +1,29 @@
+﻿# 编译产物
+*.o
+*.d
+*.crf
+*.dep
+*.hex
+*.axf
+*.map
+*.htm
+*.lnp
+*.lst
+*.iex
+*.sct
+*.uvguix*
+*.scvd
+*.bak
+*.mxproject
+*.zip
+JLinkLog.txt
+JLinkSettings.ini
+# ST 官方库 / CubeMX 生成目录（任意层级）
+Drivers/
+Middlewares/
+USB_DEVICE/
+RTE/
+DebugConfig/
+.vscode/
+# Keil 编译输出目录
+**/MDK-ARM/New_Sentry/

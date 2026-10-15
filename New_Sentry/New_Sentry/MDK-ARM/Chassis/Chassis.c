@@ -1,4 +1,4 @@
-                                                                                                           #include "Chassis.h"
+#include "Chassis.h"
 #include "cmsis_os.h"
 #include "MotorCtrl.h"
 #include "MyLib.h"
@@ -10,6 +10,7 @@
 #include "judge.h"
 #include "vision.h"
 #include "protect.h"
+#include <FreeRTOS.h>
 
 Chassis_Type Chassis_Data;
 
